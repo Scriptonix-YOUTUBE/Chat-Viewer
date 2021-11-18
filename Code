@@ -44,7 +44,7 @@ local function startof(String,String2)
 end
 
 local function fix()
-	local c = game.Players.LocalPlayer.PlayerGui:WaitForChild'Chat'
+	local c = game.Players.LocalPlayer:WaitForChild'PlayerGui':WaitForChild'Chat'
 	c:FindFirstChild('Scroller',true).ChildAdded:Connect(function(t)
 		local txt = t:WaitForChild'TextLabel'.TextColor3
 		if txt == Color3.fromRGB(255, 139, 56) then
