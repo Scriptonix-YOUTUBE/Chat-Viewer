@@ -16,7 +16,7 @@ local function chatted(p)
 	if p ~= game.Players.LocalPlayer then
 		p.Chatted:Connect(function(msg)
 			if startof(msg,'/e ') or startof(msg,'/w ') then
-				chat(p.Name,msg)
+				chat(p.DisplayName,msg)
 			end
 		end)
 	end
