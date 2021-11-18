@@ -1,3 +1,13 @@
+function ismouse()
+	local y,re = pcall(function()
+		local m = game.Players.LocalPlayer:GetMouse()
+	end)
+	return y
+end
+
+
+repeat game:GetService'RunService'.RenderStepped:Wait() until ismouse()
+
 local NAME_COLORS =
 	{
 		Color3.new(253/255, 41/255, 67/255),
