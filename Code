@@ -1,11 +1,64 @@
+local NAME_COLORS =
+	{
+		Color3.new(253/255, 41/255, 67/255),
+		Color3.new(1/255, 162/255, 255/255),
+		Color3.new(2/255, 184/255, 87/255), 
+		BrickColor.new("Bright violet").Color,
+		BrickColor.new("Bright orange").Color,
+		BrickColor.new("Bright yellow").Color,
+		BrickColor.new("Light reddish violet").Color,
+		BrickColor.new("Brick yellow").Color,
+	}
+
+local function GetNameValue(pName)
+	local value = 0
+	for index = 1, #pName do
+		local cValue = string.byte(string.sub(pName, index, index))
+		local reverseIndex = #pName - index + 1
+		if #pName%2 == 1 then
+			reverseIndex = reverseIndex - 1
+		end
+		if reverseIndex%4 >= 2 then
+			cValue = -cValue
+		end
+		value = value + cValue
+	end
+	return value
+end
+
+
+local function ComputeNameColor(pName)
+	local r = NAME_COLORS[((GetNameValue(pName)) % #NAME_COLORS) + 1]
+	return string.format(
+		'(%s,%s,%s)',
+		tostring(math.floor(r.R*255)),
+		tostring(math.floor(r.G*255)),
+		tostring(math.floor(r.B*255)
+			
+		)
+	)
+end
+
 local function startof(String,String2)
 	return (String:sub(1,-(1+(#String - #String2))) == String2) or false
 end
 
-local function chat(u,m)
-	game.StarterGui:SetCore("ChatMakeSystemMessage", 
+local function fix()
+	local c = game.Players.LocalPlayer.PlayerGui:WaitForChild'Chat'
+	c:FindFirstChild('Scroller',true).ChildAdded:Connect(function(t)
+		local txt = t:WaitForChild'TextLabel'.TextColor3
+		if txt == Color3.fromRGB(255, 139, 56) then
+			print(txt)
+			t:WaitForChild'TextLabel'.RichText = true
+		end
+	end)
+end
+
+local function chat(u,m,n)
+	local r = ComputeNameColor(n)
+	game.StarterGui:SetCore("ChatMakeSystemMessage",
 		{
-			Text = string.format('{%s}: %s',u,m),
+		    Text = string.format('<font color="rgb%s">{%s}:</font>     %s',r,u,m),
 			Color = Color3.fromRGB(255, 139, 56),
 			Font = Enum.Font.SourceSansBold,
 			TextSize = 18,
@@ -16,12 +69,11 @@ local function chatted(p)
 	if p ~= game.Players.LocalPlayer then
 		p.Chatted:Connect(function(msg)
 			if startof(msg,'/e ') or startof(msg,'/w ') then
-				chat(p.DisplayName,msg)
+				chat(p.DisplayName,msg,p.Name)
 			end
 		end)
 	end
 end
-
 game.Players.PlayerAdded:Connect(function(p)
 	chatted(p)
 end)
@@ -29,3 +81,5 @@ end)
 for _, p in pairs(game.Players:GetPlayers()) do
 	chatted(p)
 end
+
+fix()
