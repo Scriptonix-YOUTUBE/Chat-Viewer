@@ -11,7 +11,7 @@ local NAME_COLORS =
 	}
 
 local function GetNameValue(pName)
-	local value = 0
+	local value = 0 
 	for index = 1, #pName do
 		local cValue = string.byte(string.sub(pName, index, index))
 		local reverseIndex = #pName - index + 1
