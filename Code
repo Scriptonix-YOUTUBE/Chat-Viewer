@@ -1,0 +1,31 @@
+local function startof(String,String2)
+	return (String:sub(1,-(1+(#String - #String2))) == String2) or false
+end
+
+local function chat(u,m)
+	game.StarterGui:SetCore("ChatMakeSystemMessage", 
+		{
+			Text = string.format('{%s}: %s',u,m),
+			Color = Color3.fromRGB(255, 139, 56),
+			Font = Enum.Font.SourceSansBold,
+			TextSize = 18,
+		})
+end
+
+local function chatted(p)
+	if p ~= game.Players.LocalPlayer then
+		p.Chatted:Connect(function(msg)
+			if startof(msg,'/e ') or startof(msg,'/w ') then
+				chat(p.Name,msg)
+			end
+		end)
+	end
+end
+
+game.Players.PlayerAdded:Connect(function(p)
+	chatted(p)
+end)
+
+for _, p in pairs(game.Players:GetPlayers()) do
+	chatted(p)
+end
