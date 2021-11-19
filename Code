@@ -68,7 +68,7 @@ local function chat(u,m,n)
 	local r = ComputeNameColor(n)
 	game.StarterGui:SetCore("ChatMakeSystemMessage",
 		{
-		    Text = string.format('<font color="rgb%s">{%s}:</font>     %s',r,u,m),
+			Text = string.format('<font color="rgb%s">{%s}:</font> %s',r,u,m),
 			Color = Color3.fromRGB(255, 139, 56),
 			Font = Enum.Font.SourceSansBold,
 			TextSize = 18,
