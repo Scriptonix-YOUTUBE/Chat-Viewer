@@ -79,12 +79,15 @@ local function chat(u,m,n)
 end
 
 local function chatted(p)
+	if p ~= game.Players.LocalPlayer then
 		p.Chatted:Connect(function(msg)
 			if startof(msg,'/e ') or startof(msg,'/w ') then
 				chat(p.DisplayName,msg,p.Name)
 			end
 		end)
+	end
 end
+
 game.Players.PlayerAdded:Connect(function(p)
 	chatted(p)
 end)
