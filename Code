@@ -36,15 +36,18 @@ local function GetNameValue(pName)
 	return value
 end
 
+local function numfix(n)
+	return math.floor(n*255)
+end
 
 local function ComputeNameColor(pName)
 	local r = NAME_COLORS[((GetNameValue(pName)) % #NAME_COLORS) + 1]
 	return string.format(
 		'(%s,%s,%s)',
-		tostring(math.floor(r.R*255)),
-		tostring(math.floor(r.G*255)),
-		tostring(math.floor(r.B*255)
-			
+		tostring(numfix(r.R)),
+		tostring(numfix(r.G)),
+		tostring(numfix(r.B)
+
 		)
 	)
 end
@@ -68,7 +71,7 @@ local function chat(u,m,n)
 	local r = ComputeNameColor(n)
 	game.StarterGui:SetCore("ChatMakeSystemMessage",
 		{
-			Text = string.format('<font color="rgb%s">{%s}:</font> %s',r,u,m),
+			Text = string.format('<font color="rgb%s">[%s]:</font>  %s',r,u,m),
 			Color = Color3.fromRGB(255, 139, 56),
 			Font = Enum.Font.SourceSansBold,
 			TextSize = 18,
@@ -76,13 +79,11 @@ local function chat(u,m,n)
 end
 
 local function chatted(p)
-	if p ~= game.Players.LocalPlayer then
 		p.Chatted:Connect(function(msg)
 			if startof(msg,'/e ') or startof(msg,'/w ') then
 				chat(p.DisplayName,msg,p.Name)
 			end
 		end)
-	end
 end
 game.Players.PlayerAdded:Connect(function(p)
 	chatted(p)
